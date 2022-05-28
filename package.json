@@ -1,0 +1,37 @@
+{
+    "title": "Antonio Website",
+    "name": "antoniocarlos-website",
+    "version": "1.0.0",
+    "description": "My personal website, projects and portfolio",
+    "keywords": [
+        "css",
+        "sass",
+        "html",
+        "responsive",
+        "theme",
+        "template"
+    ],
+    "homepage": "https://cobap.github.io",
+    "bugs": {
+        "url": "https://github.com/StartBootstrap/startbootstrap-clean-blog-jekyll/issues",
+        "email": "feedback@startbootstrap.com"
+    },
+    "license": "MIT",
+    "author": "Start Bootstrap",
+    "contributors": [
+        "Antonio ()"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://cobap.github.io"
+    },
+    "dependencies": {
+        "bootstrap": "4.6.0",
+        "font-awesome": "4.7.0",
+        "jquery": "3.6.0",
+        "startbootstrap-clean-blog": "5.1.0"
+    },
+    "devDependencies": {
+        "browser-sync": "2.26.14"
+    }
+}
