@@ -4,13 +4,16 @@ import '../styles/global.css';
 interface Props {
   title: string;
   description?: string;
+  lang?: string;
 }
 
-const { title, description = "Antonio's Tech Blog and Portfolio" } = Astro.props;
+const { title, description = "Antonio's Tech Blog and Portfolio", lang = "en" } = Astro.props;
+const { pathname } = Astro.url;
+const isActive = (path: string) => pathname === path || (path !== '/' && pathname.startsWith(path));
 ---
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -27,10 +30,10 @@ const { title, description = "Antonio's Tech Blog and Portfolio" } = Astro.props
       <div class="nav-container">
         <a href="/" class="logo">Antonio's Tech</a>
         <nav>
-          <a href="/">Home</a>
-          <a href="/posts">Blog</a>
-          <a href="/about">About</a>
-          <a href="/contact">Contact</a>
+          <a href="/" class={isActive('/') ? 'active' : ''} aria-current={isActive('/') ? 'page' : undefined}>Home</a>
+          <a href="/posts" class={isActive('/posts') ? 'active' : ''} aria-current={isActive('/posts') ? 'page' : undefined}>Blog</a>
+          <a href="/about" class={isActive('/about') ? 'active' : ''} aria-current={isActive('/about') ? 'page' : undefined}>About</a>
+          <a href="/contact" class={isActive('/contact') ? 'active' : ''} aria-current={isActive('/contact') ? 'page' : undefined}>Contact</a>
         </nav>
       </div>
     </header>
@@ -61,6 +64,8 @@ const { title, description = "Antonio's Tech Blog and Portfolio" } = Astro.props
     justify-content: space-between;
     align-items: center;
     padding: 16px 24px;
+    flex-wrap: wrap;
+    gap: 12px;
   }
   .logo {
     font-family: var(--font-header);
@@ -75,9 +80,15 @@ const { title, description = "Antonio's Tech Blog and Portfolio" } = Astro.props
     margin-left: 20px;
     color: var(--text-secondary);
     font-weight: 500;
+    padding-bottom: 4px;
+    border-bottom: 2px solid transparent;
   }
   nav a:hover {
     color: var(--text-primary);
+  }
+  nav a.active {
+    color: var(--accent-teal);
+    border-bottom: 2px solid var(--accent-teal);
   }
   .content-wrapper {
     max-width: 1000px;
@@ -91,5 +102,14 @@ const { title, description = "Antonio's Tech Blog and Portfolio" } = Astro.props
     padding: 24px;
     color: var(--text-secondary);
     font-size: 0.875rem;
+  }
+  @media (max-width: 480px) {
+    .nav-container {
+      justify-content: center;
+      flex-direction: column;
+    }
+    nav a {
+      margin: 0 10px;
+    }
   }
 </style>
