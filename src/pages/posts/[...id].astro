@@ -1,0 +1,80 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({
+    params: { id: post.id },
+    props: post,
+  }));
+}
+
+const post = Astro.props;
+const { Content } = await render(post);
+---
+
+<Layout title={post.data.title} description={post.data.subtitle} lang="pt">
+  <article class="post-content">
+    {post.data.background && (
+      <div class="banner-image" style={`background-image: url(${post.data.background})`} />
+    )}
+    <h1>{post.data.title}</h1>
+    {post.data.subtitle && <p class="subtitle">{post.data.subtitle}</p>}
+    <time datetime={post.data.date.toISOString()}>
+      {post.data.date.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      })}
+    </time>
+    <hr class="separator" />
+    <div class="markdown-body">
+      <Content />
+    </div>
+  </article>
+</Layout>
+
+<style>
+  .post-content {
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  .banner-image {
+    width: 100%;
+    height: 300px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 12px;
+    margin-bottom: 32px;
+  }
+  h1 {
+    font-size: 2.75rem;
+    margin-bottom: 12px;
+    line-height: 1.2;
+  }
+  .subtitle {
+    font-size: 1.25rem;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+  }
+  time {
+    display: block;
+    color: var(--accent-teal);
+    font-weight: 500;
+    margin-bottom: 24px;
+  }
+  .separator {
+    border: 0;
+    border-top: 1px solid var(--border-line);
+    margin-bottom: 32px;
+  }
+  .markdown-body :global(p) {
+    margin-bottom: 20px;
+  }
+  .markdown-body :global(img) {
+    max-width: 100%;
+    border-radius: 8px;
+    margin: 24px 0;
+  }
+</style>

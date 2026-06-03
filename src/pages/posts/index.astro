@@ -1,0 +1,65 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+---
+
+<Layout title="Blog Posts | Antonio's Tech">
+  <div class="archive-container">
+    <h1>All Posts</h1>
+    <div class="post-grid">
+      {posts.map((post) => (
+        <article class="glass-card post-card">
+          <a href={`/posts/${post.id}`}>
+            <h2>{post.data.title}</h2>
+            {post.data.subtitle && <p class="subtitle">{post.data.subtitle}</p>}
+            <time datetime={post.data.date.toISOString()}>
+              {post.data.date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+              })}
+            </time>
+          </a>
+        </article>
+      ))}
+    </div>
+  </div>
+</Layout>
+
+<style>
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: 32px;
+  }
+  .post-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .post-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .post-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    border-color: var(--accent-indigo);
+  }
+  h2 {
+    font-size: 1.5rem;
+    margin-bottom: 8px;
+    color: var(--text-primary);
+  }
+  .subtitle {
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+  }
+  time {
+    font-size: 0.875rem;
+    color: var(--accent-teal);
+    font-weight: 500;
+  }
+</style>
