@@ -2,7 +2,10 @@
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout title="About Me | Antonio Carlos">
+<Layout 
+  title="About Me | Antonio Carlos" 
+  description="Learn more about Antonio Carlos, software developer specialized in Python and machine learning."
+>
   <div class="about-container">
     <div class="glass-card profile-card">
       <h1>About Me</h1>
@@ -11,14 +14,14 @@ import Layout from '../layouts/Layout.astro';
       </p>
       
       <h2>Skills & Expertise</h2>
-      <div class="skills-grid">
-        <span class="skill-tag">Python</span>
-        <span class="skill-tag">JavaScript / TypeScript</span>
-        <span class="skill-tag">Astro</span>
-        <span class="skill-tag">SQL</span>
-        <span class="skill-tag">Recommendation Systems</span>
-        <span class="skill-tag">Software Architecture</span>
-      </div>
+      <ul class="skills-grid">
+        <li class="skill-tag">Python</li>
+        <li class="skill-tag">JavaScript / TypeScript</li>
+        <li class="skill-tag">Astro</li>
+        <li class="skill-tag">SQL</li>
+        <li class="skill-tag">Recommendation Systems</li>
+        <li class="skill-tag">Software Architecture</li>
+      </ul>
     </div>
   </div>
 </Layout>
@@ -48,6 +51,8 @@ import Layout from '../layouts/Layout.astro';
     display: flex;
     flex-wrap: wrap;
     gap: 12px;
+    list-style: none;
+    padding: 0;
   }
   .skill-tag {
     background: hsla(250, 95%, 70%, 0.15);
