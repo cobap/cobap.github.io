@@ -1,0 +1,61 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="About Me | Antonio Carlos">
+  <div class="about-container">
+    <div class="glass-card profile-card">
+      <h1>About Me</h1>
+      <p class="bio">
+        Hi! I'm Antonio Carlos, a software developer and tech enthusiast. I enjoy working on data-driven projects, machine learning, and building interactive, high-performance web solutions. Currently exploring recommendation systems and scalable architectures.
+      </p>
+      
+      <h2>Skills & Expertise</h2>
+      <div class="skills-grid">
+        <span class="skill-tag">Python</span>
+        <span class="skill-tag">JavaScript / TypeScript</span>
+        <span class="skill-tag">Astro</span>
+        <span class="skill-tag">SQL</span>
+        <span class="skill-tag">Recommendation Systems</span>
+        <span class="skill-tag">Software Architecture</span>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .about-container {
+    max-width: 750px;
+    margin: 0 auto;
+  }
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    background: linear-gradient(45deg, var(--accent-indigo), var(--accent-teal));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .bio {
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+    margin-bottom: 32px;
+  }
+  h2 {
+    font-size: 1.5rem;
+    margin-bottom: 16px;
+  }
+  .skills-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .skill-tag {
+    background: hsla(250, 95%, 70%, 0.15);
+    color: var(--accent-indigo);
+    border: 1px solid hsla(250, 95%, 70%, 0.3);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: 500;
+    font-size: 0.9rem;
+  }
+</style>
