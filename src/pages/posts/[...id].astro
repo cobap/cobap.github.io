@@ -14,7 +14,7 @@ const post = Astro.props;
 const { Content } = await render(post);
 ---
 
-<Layout title={post.data.title} description={post.data.subtitle} lang="pt">
+<Layout title={post.data.title} description={post.data.subtitle} lang={post.data.lang}>
   <article class="post-content">
     {post.data.background && (
       <div class="banner-image" style={`background-image: url(${post.data.background})`} />
