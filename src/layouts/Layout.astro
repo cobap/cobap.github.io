@@ -7,7 +7,7 @@ interface Props {
   lang?: string;
 }
 
-const { title, description = "Antonio's Tech Blog and Portfolio", lang = "en" } = Astro.props;
+const { title, description = "BSD Soluções - Tecnologia, Consultoria e Desenvolvimento", lang = "en" } = Astro.props;
 const { pathname } = Astro.url;
 const isActive = (path: string) => {
   const cleanPath = path.replace(/\/$/, '');
@@ -32,7 +32,22 @@ const isActive = (path: string) => {
   <body>
     <header class="navbar">
       <div class="nav-container">
-        <a href="/" class="logo">Antonio's Tech</a>
+        <a href="/" class="logo-group">
+          <svg class="logo-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+            <defs>
+              <linearGradient id="logo-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="var(--accent-indigo)" />
+                <stop offset="100%" stop-color="var(--accent-teal)" />
+              </linearGradient>
+            </defs>
+            <polygon points="50,15 80,32 80,68 50,85 20,68 20,32" fill="none" stroke="url(#logo-grad)" stroke-width="8" />
+            <polygon points="50,30 68,40 68,60 50,70 32,60 32,40" fill="none" stroke="url(#logo-grad)" stroke-width="4" />
+            <line x1="50" y1="15" x2="50" y2="85" stroke="url(#logo-grad)" stroke-width="4" />
+            <line x1="20" y1="32" x2="80" y2="68" stroke="url(#logo-grad)" stroke-width="4" />
+            <line x1="20" y1="68" x2="80" y2="32" stroke="url(#logo-grad)" stroke-width="4" />
+          </svg>
+          <span class="logo-text">BSD Soluções</span>
+        </a>
         <nav>
           <a href="/" class={isActive('/') ? 'active' : ''} aria-current={isActive('/') ? 'page' : undefined}>Home</a>
           <a href="/posts" class={isActive('/posts') ? 'active' : ''} aria-current={isActive('/posts') ? 'page' : undefined}>Blog</a>
@@ -47,7 +62,7 @@ const isActive = (path: string) => {
     </main>
 
     <footer>
-      <p>&copy; {new Date().getFullYear()} Antonio Carlos. Powered by Astro.</p>
+      <p>&copy; {new Date().getFullYear()} BSD Soluções. All rights reserved.</p>
     </footer>
   </body>
 </html>
@@ -71,13 +86,31 @@ const isActive = (path: string) => {
     flex-wrap: wrap;
     gap: 12px;
   }
-  .logo {
+  @media (max-width: 480px) {
+    .nav-container {
+      justify-content: center;
+      flex-direction: column;
+    }
+    nav a {
+      margin: 0 10px;
+    }
+  }
+  .logo-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .logo-svg {
+    width: 32px;
+    height: 32px;
+  }
+  .logo-text {
     font-family: var(--font-header);
     font-weight: 800;
-    font-size: 1.25rem;
-    color: var(--text-primary);
+    font-size: 1.35rem;
     background: linear-gradient(45deg, var(--accent-indigo), var(--accent-teal));
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
   }
   nav a {
@@ -85,7 +118,6 @@ const isActive = (path: string) => {
     color: var(--text-secondary);
     font-weight: 500;
     padding-bottom: 4px;
-    border-bottom: 2px solid transparent;
   }
   nav a:hover {
     color: var(--text-primary);
@@ -106,14 +138,5 @@ const isActive = (path: string) => {
     padding: 24px;
     color: var(--text-secondary);
     font-size: 0.875rem;
-  }
-  @media (max-width: 480px) {
-    .nav-container {
-      justify-content: center;
-      flex-direction: column;
-    }
-    nav a {
-      margin: 0 10px;
-    }
   }
 </style>
