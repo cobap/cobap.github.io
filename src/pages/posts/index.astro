@@ -7,7 +7,10 @@ const posts = (await getCollection('blog')).sort(
 );
 ---
 
-<Layout title="Blog Posts | Antonio's Tech">
+<Layout 
+  title="Blog Posts | Antonio's Tech"
+  description="Explore tech articles and insights written by Antonio Carlos about software development, recommendation systems, and professional growth."
+>
   <div class="archive-container">
     <h1>All Posts</h1>
     <div class="post-grid">

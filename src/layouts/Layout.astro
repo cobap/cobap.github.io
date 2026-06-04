@@ -9,7 +9,11 @@ interface Props {
 
 const { title, description = "Antonio's Tech Blog and Portfolio", lang = "en" } = Astro.props;
 const { pathname } = Astro.url;
-const isActive = (path: string) => pathname === path || (path !== '/' && pathname.startsWith(path));
+const isActive = (path: string) => {
+  const cleanPath = path.replace(/\/$/, '');
+  const cleanPathname = pathname.replace(/\/$/, '');
+  return cleanPathname === cleanPath || (cleanPath !== '' && cleanPathname.startsWith(cleanPath + '/'));
+};
 ---
 
 <!DOCTYPE html>
