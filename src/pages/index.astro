@@ -6,25 +6,14 @@ const posts = (await getCollection('blog'))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
   .slice(0, 3);
 
-const projects = [
-  {
-    title: "Recommendation System",
-    description: "Built a collaborative filtering based recommendation system in Python for dynamic user personalization.",
-    tech: ["Python", "Pandas", "Scikit-learn"],
-    link: "/posts/modelo-recomendacao-python"
-  },
-  {
-    title: "Astro Blog Portfolio",
-    description: "Developed a custom Astro-based website featuring a responsive layout and glassmorphism styling.",
-    tech: ["Astro", "TypeScript", "CSS Variables"],
-    link: "https://github.com/cobap/cobap.github.io"
-  }
-];
+const projects = (await getCollection('projects'))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 2);
 ---
 
 <Layout 
   title="BSD Soluções | Home"
-  description="Bem-vindo à BSD Soluções. Desenvolvimento de software, inteligência de dados, sistemas de recomendação e portfólio de engenharia."
+  description="Bem-vindo à BSD Soluções. Desenvolvimento de software, inteligência de dados, sistemas de recomendação e engenharia."
 >
   <section class="hero">
     <h1>BSD Soluções</h1>
@@ -32,17 +21,30 @@ const projects = [
   </section>
 
   <section class="projects-section">
-    <h2>Recent Projects</h2>
+    <div class="section-header">
+      <h2>Recent Projects</h2>
+      <a href="/projects" class="view-all">View All Projects &rarr;</a>
+    </div>
     <div class="projects-grid">
       {projects.map((project) => (
-        <article class="glass-card project-card">
-          <h3>{project.title}</h3>
-          <p>{project.description}</p>
-          <div class="tech-row">
-            {project.tech.map((t) => <span class="badge">{t}</span>)}
-          </div>
-          <a href={project.link} class="project-link" aria-label={`Learn more about ${project.title}`}>Learn More &rarr;</a>
-        </article>
+        <a href={`/projects/${project.id}`} class="project-card-link">
+          <article class="project-card">
+            <div class="card-hero" style={`background-image: linear-gradient(rgba(15, 23, 42, 0.6), rgba(15, 23, 42, 0.85)), url(${project.data.background})`}>
+              {project.data.logo && (
+                <img src={project.data.logo} alt={`${project.data.title} logo`} class="card-logo" />
+              )}
+            </div>
+            <div class="card-content">
+              <h3>{project.data.title}</h3>
+              <p>{project.data.description}</p>
+              <div class="card-tech">
+                {project.data.tech.slice(0, 3).map((t) => (
+                  <span class="tech-tag">{t}</span>
+                ))}
+              </div>
+            </div>
+          </article>
+        </a>
       ))}
     </div>
   </section>
@@ -50,7 +52,7 @@ const projects = [
   <hr class="gradient-divider" />
 
   <section class="posts-section">
-    <div class="posts-header">
+    <div class="section-header">
       <h2>Latest From Blog</h2>
       <a href="/posts" class="view-all">View All Posts &rarr;</a>
     </div>
@@ -61,7 +63,7 @@ const projects = [
             <h3>{post.data.title}</h3>
             {post.data.subtitle && <p class="post-sub">{post.data.subtitle}</p>}
             <time datetime={post.data.date.toISOString()}>
-              {post.data.date.toLocaleDateString('en-US', {
+              {post.data.date.toLocaleDateString('pt-BR', {
                 month: 'short',
                 day: 'numeric',
                 year: 'numeric',
@@ -95,9 +97,24 @@ const projects = [
   }
   h2 {
     font-size: 1.75rem;
-    margin-bottom: 24px;
     border-left: 4px solid var(--accent-teal);
     padding-left: 12px;
+    margin: 0;
+  }
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+  .view-all {
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    color: var(--accent-teal);
+  }
+  .view-all:hover {
+    color: var(--text-primary);
   }
   .projects-section, .posts-section {
     margin-bottom: 48px;
@@ -112,67 +129,121 @@ const projects = [
       grid-template-columns: 1fr;
     }
   }
-  .project-card, .post-card {
+  .project-card-link {
+    text-decoration: none;
+    color: inherit;
+  }
+  .project-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-line);
+    border-radius: 16px;
+    overflow: hidden;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(8px);
+  }
+  .project-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--accent-indigo);
+    box-shadow: 0 10px 25px rgba(139, 92, 246, 0.15);
+  }
+  .card-hero {
+    height: 150px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .card-logo {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    background: var(--bg-card);
+    padding: 6px;
+    border: 1.5px solid var(--border-line);
+  }
+  .card-content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+  .card-content h3 {
+    font-size: 1.25rem;
+    margin: 0 0 8px 0;
+    color: #ffffff;
+  }
+  .card-content p {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin: 0 0 16px 0;
+    flex-grow: 1;
+  }
+  .card-tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .tech-tag {
+    font-size: 0.7rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: hsla(250, 95%, 70%, 0.1);
+    color: var(--accent-indigo);
+    border: 1px solid hsla(250, 95%, 70%, 0.15);
+    font-weight: 500;
+  }
+  .post-card {
     display: flex;
     flex-direction: column;
     gap: 12px;
-    transition: transform 0.2s, border-color 0.2s;
+    transition: all 0.3s ease;
+    padding: 20px;
+    border: 1px solid var(--border-line);
+    border-radius: 12px;
+    background: var(--bg-card);
   }
-  .project-card:hover, .post-card:hover {
+  .post-card:hover {
     transform: translateY(-3px);
     border-color: var(--accent-indigo);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
   }
-  .project-card h3, .post-card h3 {
+  .post-card a {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  .post-card h3 {
     font-size: 1.25rem;
+    margin: 0 0 8px 0;
+    color: #ffffff;
   }
-  .project-card p, .post-sub {
+  .post-sub {
     color: var(--text-secondary);
-    font-size: 0.95rem;
-  }
-  .tech-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 4px;
-  }
-  .badge {
-    background: hsla(180, 100%, 50%, 0.1);
-    color: var(--accent-teal);
-    border: 1px solid hsla(180, 100%, 50%, 0.25);
-    padding: 4px 10px;
-    border-radius: 4px;
-    font-size: 0.8rem;
-    font-weight: 600;
-  }
-  .project-link {
-    margin-top: auto;
     font-size: 0.9rem;
-    font-weight: 600;
-    align-self: flex-start;
-  }
-  .gradient-divider {
-    border: 0;
-    height: 1px;
-    background: linear-gradient(to right, transparent, var(--border-line), var(--accent-teal), var(--accent-indigo), var(--border-line), transparent);
-    margin: 50px 0;
-    opacity: 0.7;
-  }
-  .posts-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 24px;
-  }
-  .posts-header h2 {
-    margin-bottom: 0;
-  }
-  .view-all {
-    font-weight: 600;
+    line-height: 1.4;
+    margin: 0 0 12px 0;
+    flex-grow: 1;
   }
   .post-card time {
     font-size: 0.8rem;
     color: var(--accent-teal);
     font-weight: 600;
-    margin-top: auto;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .gradient-divider {
+    border: 0;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--border-line), var(--accent-teal), var(--accent-indigo), var(--border-line), transparent);
+    margin: 40px 0;
+    opacity: 0.7;
   }
 </style>
