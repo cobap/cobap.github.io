@@ -23,50 +23,53 @@ const projects = [
 ---
 
 <Layout 
-  title="Antonio's Tech | Home"
-  description="Welcome to Antonio Carlos' tech portfolio and blog. Read about software architecture, Python, and data science projects."
+  title="BSD Soluções | Home"
+  description="Bem-vindo à BSD Soluções. Desenvolvimento de software, inteligência de dados, sistemas de recomendação e portfólio de engenharia."
 >
   <section class="hero">
-    <h1>Antonio Carlos</h1>
-    <p class="subtitle">Exploring tech, software development, and growth.</p>
+    <h1>BSD Soluções</h1>
+    <p class="subtitle">Inteligência de dados, sistemas de recomendação e arquitetura de software de alta performance.</p>
   </section>
 
-  <section class="grid-section">
-    <div class="projects-area">
-      <h2>Recent Projects</h2>
-      <div class="projects-grid">
-        {projects.map((project) => (
-          <article class="glass-card project-card">
-            <h3>{project.title}</h3>
-            <p>{project.description}</p>
-            <div class="tech-row">
-              {project.tech.map((t) => <span class="badge">{t}</span>)}
-            </div>
-            <a href={project.link} class="project-link" aria-label={`Learn more about ${project.title}`}>Learn More &rarr;</a>
-          </article>
-        ))}
-      </div>
+  <section class="projects-section">
+    <h2>Recent Projects</h2>
+    <div class="projects-grid">
+      {projects.map((project) => (
+        <article class="glass-card project-card">
+          <h3>{project.title}</h3>
+          <p>{project.description}</p>
+          <div class="tech-row">
+            {project.tech.map((t) => <span class="badge">{t}</span>)}
+          </div>
+          <a href={project.link} class="project-link" aria-label={`Learn more about ${project.title}`}>Learn More &rarr;</a>
+        </article>
+      ))}
     </div>
+  </section>
 
-    <div class="posts-area">
+  <hr class="gradient-divider" />
+
+  <section class="posts-section">
+    <div class="posts-header">
       <h2>Latest From Blog</h2>
-      <div class="posts-list">
-        {posts.map((post) => (
-          <article class="glass-card post-item">
-            <a href={`/posts/${post.id}`}>
-              <h3>{post.data.title}</h3>
-              <time datetime={post.data.date.toISOString()}>
-                {post.data.date.toLocaleDateString('en-US', {
-                  month: 'short',
-                  day: 'numeric',
-                  year: 'numeric',
-                })}
-              </time>
-            </a>
-          </article>
-        ))}
-        <a href="/posts" class="view-all">View All Posts &rarr;</a>
-      </div>
+      <a href="/posts" class="view-all">View All Posts &rarr;</a>
+    </div>
+    <div class="posts-grid">
+      {posts.map((post) => (
+        <article class="glass-card post-card">
+          <a href={`/posts/${post.id}`}>
+            <h3>{post.data.title}</h3>
+            {post.data.subtitle && <p class="post-sub">{post.data.subtitle}</p>}
+            <time datetime={post.data.date.toISOString()}>
+              {post.data.date.toLocaleDateString('en-US', {
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric',
+              })}
+            </time>
+          </a>
+        </article>
+      ))}
     </div>
   </section>
 </Layout>
@@ -87,17 +90,8 @@ const projects = [
   .subtitle {
     font-size: 1.25rem;
     color: var(--text-secondary);
-  }
-  .grid-section {
-    display: grid;
-    grid-template-columns: 3fr 2fr;
-    gap: 40px;
-    margin-top: 40px;
-  }
-  @media (max-width: 768px) {
-    .grid-section {
-      grid-template-columns: 1fr;
-    }
+    max-width: 700px;
+    margin: 0 auto;
   }
   h2 {
     font-size: 1.75rem;
@@ -105,25 +99,33 @@ const projects = [
     border-left: 4px solid var(--accent-teal);
     padding-left: 12px;
   }
-  .projects-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+  .projects-section, .posts-section {
+    margin-bottom: 48px;
   }
-  .project-card {
+  .projects-grid, .posts-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+  @media (max-width: 768px) {
+    .projects-grid, .posts-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  .project-card, .post-card {
     display: flex;
     flex-direction: column;
     gap: 12px;
     transition: transform 0.2s, border-color 0.2s;
   }
-  .project-card:hover {
+  .project-card:hover, .post-card:hover {
     transform: translateY(-3px);
     border-color: var(--accent-indigo);
   }
-  .project-card h3 {
+  .project-card h3, .post-card h3 {
     font-size: 1.25rem;
   }
-  .project-card p {
+  .project-card p, .post-sub {
     color: var(--text-secondary);
     font-size: 0.95rem;
   }
@@ -143,33 +145,34 @@ const projects = [
     font-weight: 600;
   }
   .project-link {
-    margin-top: 8px;
+    margin-top: auto;
     font-size: 0.9rem;
     font-weight: 600;
+    align-self: flex-start;
   }
-  .posts-list {
+  .gradient-divider {
+    border: 0;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--border-line), var(--accent-teal), var(--accent-indigo), var(--border-line), transparent);
+    margin: 50px 0;
+    opacity: 0.7;
+  }
+  .posts-header {
     display: flex;
-    flex-direction: column;
-    gap: 16px;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
   }
-  .post-item {
-    transition: border-color 0.2s;
-  }
-  .post-item:hover {
-    border-color: var(--accent-teal);
-  }
-  .post-item h3 {
-    font-size: 1.1rem;
-    margin-bottom: 8px;
-  }
-  .post-item time {
-    font-size: 0.8rem;
-    color: var(--text-secondary);
+  .posts-header h2 {
+    margin-bottom: 0;
   }
   .view-all {
-    display: inline-block;
-    margin-top: 16px;
     font-weight: 600;
-    align-self: flex-start;
+  }
+  .post-card time {
+    font-size: 0.8rem;
+    color: var(--accent-teal);
+    font-weight: 600;
+    margin-top: auto;
   }
 </style>
