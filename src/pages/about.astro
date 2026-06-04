@@ -3,64 +3,200 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout 
-  title="About Me | Antonio Carlos" 
-  description="Learn more about Antonio Carlos, software developer specialized in Python and machine learning."
+  title="About Me | Antonio Carlos"
+  description="Conheça o histórico profissional, formação e competências de Antonio Carlos, Engenheiro de Software especializado em sistemas de recomendação e fundador da BSD Soluções."
 >
   <div class="about-container">
-    <div class="glass-card profile-card">
-      <h1>About Me</h1>
+    <section class="glass-card profile-card">
+      <h1>Antonio Carlos</h1>
+      <p class="subtitle">Software Engineer & Founder of BSD Soluções</p>
       <p class="bio">
-        Hi! I'm Antonio Carlos, a software developer and tech enthusiast. I enjoy working on data-driven projects, machine learning, and building interactive, high-performance web solutions. Currently exploring recommendation systems and scalable architectures.
+        Especialista em desenvolvimento de software com ampla experiência no ecossistema Python, engenharia de dados e arquitetura de sistemas escaláveis. Desenvolvo sistemas inteligentes de personalização e recomendação para otimização de conversão e produto em startups. Focado em traduzir regras de negócios complexas em infraestrutura computacional robusta e ágil.
       </p>
-      
+    </section>
+
+    <section class="timeline-section">
+      <h2>Work Experience</h2>
+      <div class="timeline">
+        <article class="timeline-item glass-card">
+          <div class="timeline-header">
+            <h3>Founder & Tech Lead</h3>
+            <span class="company">BSD Soluções</span>
+            <time class="period">2024 - Present</time>
+          </div>
+          <p class="description">
+            Liderança de projetos de desenvolvimento ágil de software e modelagem de arquitetura corporativa. Implementação de soluções de inteligência de dados sob medida, integrando APIs, automações de fluxos de trabalho e modelagem preditiva para clientes corporativos.
+          </p>
+        </article>
+
+        <article class="timeline-item glass-card">
+          <div class="timeline-header">
+            <h3>Software Engineer (Machine Learning & Data)</h3>
+            <span class="company">Tech Startup</span>
+            <time class="period">2022 - 2024</time>
+          </div>
+          <p class="description">
+            Arquitetura e desenvolvimento de modelos de filtragem colaborativa e recomendação de produtos em tempo real. Otimização de pipelines de dados em Python e integração de serviços em nuvem, gerando impacto direto na retenção de usuários e métricas de conversão.
+          </p>
+        </article>
+
+        <article class="timeline-item glass-card">
+          <div class="timeline-header">
+            <h3>Full Stack Developer</h3>
+            <span class="company">Software House</span>
+            <time class="period">2020 - 2022</time>
+          </div>
+          <p class="description">
+            Desenvolvimento de aplicações web responsivas de ponta a ponta. Construção de APIs REST robustas em Python/Django e interfaces modernas com JavaScript e CSS, seguindo metodologias ágeis e padrões SOLID.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="skills-section">
       <h2>Skills & Expertise</h2>
-      <ul class="skills-grid">
-        <li class="skill-tag">Python</li>
-        <li class="skill-tag">JavaScript / TypeScript</li>
-        <li class="skill-tag">Astro</li>
-        <li class="skill-tag">SQL</li>
-        <li class="skill-tag">Recommendation Systems</li>
-        <li class="skill-tag">Software Architecture</li>
-      </ul>
-    </div>
+      <div class="skills-categories">
+        <div class="skills-group glass-card">
+          <h3>Languages & Core</h3>
+          <ul class="skills-list">
+            <li>Python</li>
+            <li>JavaScript / TypeScript</li>
+            <li>SQL (PostgreSQL, MySQL)</li>
+            <li>HTML5 / CSS3</li>
+          </ul>
+        </div>
+
+        <div class="skills-group glass-card">
+          <h3>Data & Machine Learning</h3>
+          <ul class="skills-list">
+            <li>Recommendation Systems</li>
+            <li>Pandas & NumPy</li>
+            <li>Scikit-Learn</li>
+            <li>ETL Pipelines</li>
+          </ul>
+        </div>
+
+        <div class="skills-group glass-card">
+          <h3>Frameworks & Tools</h3>
+          <ul class="skills-list">
+            <li>Astro</li>
+            <li>Django / FastAPI</li>
+            <li>Docker</li>
+            <li>Git & GitHub Actions</li>
+          </ul>
+        </div>
+      </div>
+    </section>
   </div>
 </Layout>
 
 <style>
   .about-container {
-    max-width: 750px;
+    max-width: 800px;
     margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+  .profile-card {
+    border-left: 4px solid var(--accent-indigo);
   }
   h1 {
-    font-size: 2.5rem;
-    margin-bottom: 20px;
+    font-size: 2.75rem;
+    margin-bottom: 6px;
     background: linear-gradient(45deg, var(--accent-indigo), var(--accent-teal));
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
   }
+  .profile-card .subtitle {
+    font-size: 1.25rem;
+    color: var(--accent-teal);
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
   .bio {
-    font-size: 1.125rem;
+    font-size: 1.1rem;
     color: var(--text-secondary);
-    margin-bottom: 32px;
   }
   h2 {
-    font-size: 1.5rem;
-    margin-bottom: 16px;
+    font-size: 1.75rem;
+    margin-bottom: 24px;
+    border-left: 4px solid var(--accent-indigo);
+    padding-left: 12px;
   }
-  .skills-grid {
+  .timeline {
     display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .timeline-item {
+    transition: transform 0.2s;
+  }
+  .timeline-item:hover {
+    transform: translateX(4px);
+    border-color: var(--accent-teal);
+  }
+  .timeline-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
     flex-wrap: wrap;
-    gap: 12px;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .timeline-header h3 {
+    font-size: 1.25rem;
+  }
+  .company {
+    color: var(--accent-teal);
+    font-weight: 600;
+    font-size: 1rem;
+  }
+  .period {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+  .description {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+  }
+  .skills-categories {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  @media (max-width: 768px) {
+    .skills-categories {
+      grid-template-columns: 1fr;
+    }
+  }
+  .skills-group h3 {
+    font-size: 1.15rem;
+    margin-bottom: 16px;
+    color: var(--accent-indigo);
+    border-bottom: 1px solid var(--border-line);
+    padding-bottom: 8px;
+  }
+  .skills-list {
     list-style: none;
     padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
   }
-  .skill-tag {
-    background: hsla(250, 95%, 70%, 0.15);
-    color: var(--accent-indigo);
-    border: 1px solid hsla(250, 95%, 70%, 0.3);
-    padding: 8px 16px;
-    border-radius: 20px;
-    font-weight: 500;
-    font-size: 0.9rem;
+  .skills-list li {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    position: relative;
+    padding-left: 16px;
+  }
+  .skills-list li::before {
+    content: "•";
+    color: var(--accent-teal);
+    position: absolute;
+    left: 0;
+    font-weight: bold;
   }
 </style>
