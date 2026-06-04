@@ -1,0 +1,241 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map((project) => ({
+    params: { id: project.id },
+    props: project,
+  }));
+}
+
+const project = Astro.props;
+const { Content } = await render(project);
+---
+
+<Layout title={project.data.title} description={project.data.description} lang={project.data.lang}>
+  <div class="project-container">
+    <!-- Full-Width Hero Section -->
+    <div class="project-hero" style={`background-image: linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.95)), url(${project.data.background})`}>
+      <div class="hero-content">
+        {project.data.logo && (
+          <img src={project.data.logo} alt={`${project.data.title} logo`} class="project-logo" />
+        )}
+        <h1 class="project-title">{project.data.title}</h1>
+        <p class="project-description">{project.data.description}</p>
+      </div>
+    </div>
+
+    <!-- Two Column Layout -->
+    <div class="project-layout">
+      <!-- Main Content Column -->
+      <main class="project-main">
+        <div class="markdown-body">
+          <Content />
+        </div>
+      </main>
+
+      <!-- Sidebar Column -->
+      <aside class="project-sidebar">
+        <div class="sidebar-card">
+          <h3>Specifications</h3>
+          
+          <div class="spec-group">
+            <span class="spec-label">Released</span>
+            <span class="spec-value">
+              {project.data.date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+              })}
+            </span>
+          </div>
+
+          <div class="spec-group">
+            <span class="spec-label">Tech Stack</span>
+            <div class="tech-pills">
+              {project.data.tech.map((t) => (
+                <span class="tech-pill">{t}</span>
+              ))}
+            </div>
+          </div>
+
+          {project.data.link && (
+            <a href={project.data.link} target="_blank" rel="noopener noreferrer" class="project-link-btn">
+              Visit Product
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="btn-icon">
+                <path fill-rule="evenodd" d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z" clip-rule="evenodd" />
+              </svg>
+            </a>
+          )}
+        </div>
+      </aside>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .project-container {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  .project-hero {
+    border-radius: 16px;
+    background-size: cover;
+    background-position: center;
+    padding: 60px 40px;
+    margin-bottom: 40px;
+    border: 1px solid var(--border-line);
+    text-align: center;
+  }
+  .hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+  .project-logo {
+    width: 80px;
+    height: 80px;
+    border-radius: 16px;
+    border: 2px solid var(--border-line);
+    background: var(--bg-card);
+    padding: 8px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+  }
+  .project-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    font-family: var(--font-header);
+    margin: 0;
+    background: linear-gradient(to right, #ffffff, var(--text-secondary));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .project-description {
+    font-size: 1.25rem;
+    color: var(--text-secondary);
+    margin: 0;
+    max-width: 600px;
+  }
+  
+  .project-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  @media (min-width: 768px) {
+    .project-layout {
+      grid-template-columns: 1.8fr 1fr;
+    }
+  }
+
+  .project-main {
+    background: var(--bg-card);
+    border: 1px solid var(--border-line);
+    border-radius: 16px;
+    padding: 32px;
+    backdrop-filter: blur(8px);
+  }
+  
+  .project-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  .sidebar-card {
+    position: sticky;
+    top: 100px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-line);
+    border-radius: 16px;
+    padding: 24px;
+    backdrop-filter: blur(8px);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .sidebar-card h3 {
+    font-family: var(--font-header);
+    font-size: 1.25rem;
+    margin: 0 0 8px 0;
+    color: var(--text-primary);
+    border-bottom: 1px solid var(--border-line);
+    padding-bottom: 12px;
+  }
+  .spec-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .spec-label {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .spec-value {
+    font-size: 1rem;
+    color: var(--text-primary);
+    font-weight: 500;
+  }
+  .tech-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .tech-pill {
+    font-size: 0.85rem;
+    padding: 4px 10px;
+    border-radius: 6px;
+    background: hsla(250, 95%, 70%, 0.1);
+    color: var(--accent-indigo);
+    border: 1px solid hsla(250, 95%, 70%, 0.2);
+    font-weight: 500;
+  }
+  .project-link-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: linear-gradient(135deg, var(--accent-indigo), var(--accent-teal));
+    color: #ffffff;
+    font-weight: 600;
+    padding: 12px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+  }
+  .project-link-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(20, 184, 166, 0.4);
+  }
+  .btn-icon {
+    width: 18px;
+    height: 18px;
+  }
+  .markdown-body :global(p) {
+    margin-bottom: 20px;
+    line-height: 1.6;
+    color: var(--text-secondary);
+  }
+  .markdown-body :global(h2) {
+    font-family: var(--font-header);
+    font-size: 1.75rem;
+    margin-top: 32px;
+    margin-bottom: 16px;
+    color: var(--text-primary);
+  }
+  .markdown-body :global(img) {
+    max-width: 100%;
+    border-radius: 8px;
+    margin: 24px 0;
+    border: 1px solid var(--border-line);
+  }
+</style>
