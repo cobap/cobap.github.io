@@ -36,14 +36,14 @@ const projects = [
       <h2>Recent Projects</h2>
       <div class="projects-grid">
         {projects.map((project) => (
-          <div class="glass-card project-card">
+          <article class="glass-card project-card">
             <h3>{project.title}</h3>
             <p>{project.description}</p>
             <div class="tech-row">
               {project.tech.map((t) => <span class="badge">{t}</span>)}
             </div>
-            <a href={project.link} class="project-link">Learn More &rarr;</a>
-          </div>
+            <a href={project.link} class="project-link" aria-label={`Learn more about ${project.title}`}>Learn More &rarr;</a>
+          </article>
         ))}
       </div>
     </div>
@@ -80,6 +80,7 @@ const projects = [
     font-size: 3.5rem;
     background: linear-gradient(45deg, var(--accent-indigo), var(--accent-teal));
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
     margin-bottom: 8px;
   }
