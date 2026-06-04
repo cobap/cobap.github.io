@@ -1,28 +1,174 @@
 ---
+import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
+
+const posts = (await getCollection('blog'))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+
+const projects = [
+  {
+    title: "Recommendation System",
+    description: "Built a collaborative filtering based recommendation system in Python for dynamic user personalization.",
+    tech: ["Python", "Pandas", "Scikit-learn"],
+    link: "/posts/modelo-recomendacao-python"
+  },
+  {
+    title: "Astro Blog Portfolio",
+    description: "Developed a custom Astro-based website featuring a responsive layout and glassmorphism styling.",
+    tech: ["Astro", "TypeScript", "CSS Variables"],
+    link: "https://github.com/cobap/cobap.github.io"
+  }
+];
 ---
 
-<Layout title="Antonio's Tech | Home">
+<Layout 
+  title="Antonio's Tech | Home"
+  description="Welcome to Antonio Carlos' tech portfolio and blog. Read about software architecture, Python, and data science projects."
+>
   <section class="hero">
-    <h1>Welcome to My Space</h1>
-    <p>Exploring tech, recommendation systems, and professional growth.</p>
+    <h1>Antonio Carlos</h1>
+    <p class="subtitle">Exploring tech, software development, and growth.</p>
+  </section>
+
+  <section class="grid-section">
+    <div class="projects-area">
+      <h2>Recent Projects</h2>
+      <div class="projects-grid">
+        {projects.map((project) => (
+          <div class="glass-card project-card">
+            <h3>{project.title}</h3>
+            <p>{project.description}</p>
+            <div class="tech-row">
+              {project.tech.map((t) => <span class="badge">{t}</span>)}
+            </div>
+            <a href={project.link} class="project-link">Learn More &rarr;</a>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div class="posts-area">
+      <h2>Latest From Blog</h2>
+      <div class="posts-list">
+        {posts.map((post) => (
+          <article class="glass-card post-item">
+            <a href={`/posts/${post.id}`}>
+              <h3>{post.data.title}</h3>
+              <time datetime={post.data.date.toISOString()}>
+                {post.data.date.toLocaleDateString('en-US', {
+                  month: 'short',
+                  day: 'numeric',
+                  year: 'numeric',
+                })}
+              </time>
+            </a>
+          </article>
+        ))}
+        <a href="/posts" class="view-all">View All Posts &rarr;</a>
+      </div>
+    </div>
   </section>
 </Layout>
 
 <style>
   .hero {
     text-align: center;
-    padding: 80px 0;
+    padding: 60px 0;
   }
-  h1 {
-    font-size: 3rem;
-    margin-bottom: 16px;
-    background: linear-gradient(to right, var(--accent-indigo), var(--accent-teal));
+  .hero h1 {
+    font-size: 3.5rem;
+    background: linear-gradient(45deg, var(--accent-indigo), var(--accent-teal));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    margin-bottom: 8px;
   }
-  p {
+  .subtitle {
     font-size: 1.25rem;
     color: var(--text-secondary);
+  }
+  .grid-section {
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    gap: 40px;
+    margin-top: 40px;
+  }
+  @media (max-width: 768px) {
+    .grid-section {
+      grid-template-columns: 1fr;
+    }
+  }
+  h2 {
+    font-size: 1.75rem;
+    margin-bottom: 24px;
+    border-left: 4px solid var(--accent-teal);
+    padding-left: 12px;
+  }
+  .projects-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .project-card {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: transform 0.2s, border-color 0.2s;
+  }
+  .project-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--accent-indigo);
+  }
+  .project-card h3 {
+    font-size: 1.25rem;
+  }
+  .project-card p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+  }
+  .tech-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 4px;
+  }
+  .badge {
+    background: hsla(180, 100%, 50%, 0.1);
+    color: var(--accent-teal);
+    border: 1px solid hsla(180, 100%, 50%, 0.25);
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+  .project-link {
+    margin-top: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+  .posts-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .post-item {
+    transition: border-color 0.2s;
+  }
+  .post-item:hover {
+    border-color: var(--accent-teal);
+  }
+  .post-item h3 {
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+  }
+  .post-item time {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+  }
+  .view-all {
+    display: inline-block;
+    margin-top: 16px;
+    font-weight: 600;
+    align-self: flex-start;
   }
 </style>
