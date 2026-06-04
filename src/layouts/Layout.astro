@@ -50,6 +50,7 @@ const isActive = (path: string) => {
         </a>
         <nav>
           <a href="/" class={isActive('/') ? 'active' : ''} aria-current={isActive('/') ? 'page' : undefined}>Home</a>
+          <a href="/projects" class={isActive('/projects') ? 'active' : ''} aria-current={isActive('/projects') ? 'page' : undefined}>Projects</a>
           <a href="/posts" class={isActive('/posts') ? 'active' : ''} aria-current={isActive('/posts') ? 'page' : undefined}>Blog</a>
           <a href="/about" class={isActive('/about') ? 'active' : ''} aria-current={isActive('/about') ? 'page' : undefined}>About</a>
           <a href="/contact" class={isActive('/contact') ? 'active' : ''} aria-current={isActive('/contact') ? 'page' : undefined}>Contact</a>
